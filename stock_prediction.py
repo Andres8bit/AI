@@ -8,7 +8,6 @@ from sklearn.model_selection import GridSearchCV
 from sklearn.preprocessing import StandardScaler
 from sklearn.linear_model import SGDRegressor
 from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score
-from sklearn.ensemble import RandomForestRegressor
 from sklearn.svm import SVR
 from pandas.plotting import register_matplotlib_converters
 from pandas.plotting import register_matplotlib_converters
@@ -130,27 +129,16 @@ def predictions(stocks,training,test):
                 X_scaled_test = scaler.transform(x_test)
                 grid_search.fit(X_scaled_train, y_train)
                 lr_best = grid_search.best_estimator_
-                # print('coefficients:')
-                # print(lr_best.coef_)
-                # print(lr_best)
+
                 data[k] = lr_best.predict(X_scaled_test)
-                # print(data[k])
-                #return model rather then only the pridicrions
         return data             
 
 def graph(predictions,test):
         fig, ax = plt.subplots(nrows= 5,ncols= 4,sharex= True)
         for a,key in zip(ax.flat,predictions.keys()):
                 dates = test[key].index.values
-                # print(key)
-                # print('dates:')
-                # print(dates)
                 test_plot = (test[key])['close'].to_numpy()
-                # print('test data:')
-                # print(test_plot)
                 lr_plot = predictions[key]
-                # print('prediction data:')
-                # print(lr_plot)
                 a.plot(dates,test_plot,'k')
                 a.plot(dates,lr_plot,'r')
                 a.set_title(key)
@@ -168,16 +156,6 @@ def prediction_features(stock_info,predictions):
                 new_data['close_predictive'] = predictive_series
                 print(predictive_series)
                 print(new_data)
-                #new_data['open'] = test_data
-                #data[key] =  
-                # data[key]['open'] = test_data[key]['open']
-                # (data[key])['predictive_close'] = (test_data[key])['close']
-                # (data[key])['actual_close'] = (stock_info[key])['close']
-                # (data[key])['high'] = (stock_info[key])['high']
-                # (data[key])['volume'] = (stock_info[key]['volume'])
-                # (data[key])['actual_return'] = (stock_info[key])['close'] / (stock_info[key])['close'].shift(1)
-                # (data[key])['predicted_return'] = (test_data[key])['close'] / (test_data[key])['close'].shift(1)
-                #print(data[key])
                 
 
 #stocks being tracked:
